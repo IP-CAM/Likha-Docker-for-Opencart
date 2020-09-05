@@ -26,7 +26,8 @@ if [ ! -f "$LIKHA_DATA_DIR/.initialized" ]; then
     rm -rf /var/www/html/upload/
     mv config-dist.php config.php
     mv admin/config-dist.php admin/config.php
-    chown -R www-data:www-data /var/www
+    chown -R www-data: /var/www
+    chown -R www-data: $OPENCART_DATA_DIR
 
     OPENCART_INSTALL_DIR="/var/www/html/install"
     if [ -d $OPENCART_INSTALL_DIR ]; then

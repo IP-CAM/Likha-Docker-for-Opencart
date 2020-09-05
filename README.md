@@ -20,7 +20,7 @@ docker run \
  -d mariadb:latest
 ```
 
-## Peristent Disk
+## Persistent Disk
 A persistent disk is used to retain the OpenCart data along side with the MySQL. 
 
 
