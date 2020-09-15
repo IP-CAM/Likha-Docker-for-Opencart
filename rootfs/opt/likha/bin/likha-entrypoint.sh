@@ -31,7 +31,7 @@ if [ ! -f "$LIKHA_DATA_DIR/.initialized" ]; then
 
     OPENCART_INSTALL_DIR="/var/www/html/install"
     if [ -d $OPENCART_INSTALL_DIR ]; then
-        echo "== OpenCart Setup =="
+        echo "== OpenCart Setup  Start =="
         cd $OPENCART_INSTALL_DIR
         php cli_install.php install \
             --db_hostname ${DATABASE_HOST} \
@@ -45,6 +45,12 @@ if [ ! -f "$LIKHA_DATA_DIR/.initialized" ]; then
             --email "${OPENCART_EMAIL}" \
             --http_server "http://${OPENCART_HOST}/"
         rm -rf $OPENCART_INSTALL_DIR
+
+        # Update HTTPS URLs
+        sed -i '/HTTPS_SERVER/ s/http:\/\//https:\/\//g' /var/www/html/config.php
+        sed -i '/HTTPS_SERVER/ s/http:\/\//https:\/\//g' /var/www/html/admin/config.php
+        sed -i '/HTTPS_CATALOG/ s/http:\/\//https:\/\//g' /var/www/html/admin/config.php
+
         echo "== OpenCart Setup Complete =="
     fi
     touch $LIKHA_DATA_DIR/.initialized
