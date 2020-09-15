@@ -55,5 +55,5 @@ docker run \
  -e OPENCART_EMAIL="shop@localhost" \
  -e OPENCART_URL="http://localhost/" \
  -v path/to/persistence:/likha \
- -d likha/likha-docker-opencart:latest
+ -d likha/opencart:latest
 ```
