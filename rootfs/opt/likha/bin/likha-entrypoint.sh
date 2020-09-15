@@ -42,8 +42,8 @@ if [ ! -f "$LIKHA_DATA_DIR/.initialized" ]; then
             --db_port 3306 \
             --username ${OPENCART_USER} \
             --password ${OPENCART_PASS} \
-            --email "${OPENCART_EMAIL}" --http_server ${OPENCART_URL}
-        cd /
+            --email "${OPENCART_EMAIL}" \
+            --http_server "http://${OPENCART_HOST}/"
         rm -rf $OPENCART_INSTALL_DIR
         echo "== OpenCart Setup Complete =="
     fi
@@ -54,4 +54,6 @@ fi
 if [ -f $LIKHA_MEDIA_DIR/$OPENCART_FILE ]; then 
     rm $LIKHA_MEDIA_DIR/$OPENCART_FILE
 fi
+
+cd /
 apache2-foreground

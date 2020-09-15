@@ -38,7 +38,7 @@ A persistent disk is used to retain the OpenCart data along side with the MySQL.
  - `DATABASE_USER`: OpenCart Database User. Default: **opencart**
  - `DATABASE_PASS`: OpenCart Database Password. Default: **opencart**
  - `DATABASE_DB`: OpenCart Database. Default: **opencart**
- - `OPENCART_HTTPURL`: OpenCart URL. Default: **http://localhost**
+ - `OPENCART_HOST`: OpenCart host name. Default: **localhost**
 
 # Deployment
 
@@ -53,7 +53,7 @@ docker run \
  -e OPENCART_USER="oc_admin" \
  -e OPENCART_PASS="oc_password" \
  -e OPENCART_EMAIL="shop@localhost" \
- -e OPENCART_URL="http://localhost/" \
+ -e OPENCART_HOST="localhost" \
  -v path/to/persistence:/likha \
  -d likha/opencart:latest
 ```
