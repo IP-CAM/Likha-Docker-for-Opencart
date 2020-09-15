@@ -29,6 +29,7 @@ A persistent disk is used to retain the OpenCart data along side with the MySQL.
 ## Environment Variables
 
 ### User Site Configuration
+ - `OPENCART_HOST`: OpenCart host name. Default: **localhost**
  - `OPENCART_USER`: OpenCart Admin username. Default: **oc_admin**
  - `OPENCART_PASS`: OpenCart Admin password. Default: **oc_password**
  - `OPENCART_EMAIL`: OpenCart application email. Default: **shop@localhost**
@@ -38,7 +39,6 @@ A persistent disk is used to retain the OpenCart data along side with the MySQL.
  - `DATABASE_USER`: OpenCart Database User. Default: **opencart**
  - `DATABASE_PASS`: OpenCart Database Password. Default: **opencart**
  - `DATABASE_DB`: OpenCart Database. Default: **opencart**
- - `OPENCART_HOST`: OpenCart host name. Default: **localhost**
 
 # Deployment
 
