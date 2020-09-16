@@ -2,6 +2,9 @@
 
 LIKHA_DATA_DIR="/likha"
 OPENCART_DATA_DIR="/likha/opencart"
+OPENCART_STORAGE_CACHE_DIR="/tmp/opencart/system/storage/cache"
+OPENCART_IMAGE_CACHE_DIR="/tmp/opencart/image/cache"
+
 LIKHA_MEDIA_DIR="/opt/likha/media"
 
 echo "###########################################"
@@ -17,6 +20,14 @@ if [ ! -L /var/www ]; then
     ln -s $OPENCART_DATA_DIR /var/www
     mkdir -p /var/www/html
 fi 
+
+mkdir -p $OPENCART_STORAGE_CACHE_DIR
+touch $OPENCART_STORAGE_CACHE_DIR/index.php
+chown -R www-data: $OPENCART_STORAGE_CACHE_DIR
+
+mkdir -p $OPENCART_IMAGE_CACHE_DIR
+touch $OPENCART_IMAGE_CACHE_DIR/index.php
+chown -R www-data: $OPENCART_IMAGE_CACHE_DIR
  
 if [ ! -f "$LIKHA_DATA_DIR/.initialized" ]; then
     pushd /var/www/html
@@ -51,6 +62,15 @@ if [ ! -f "$LIKHA_DATA_DIR/.initialized" ]; then
         sed -i '/HTTPS_SERVER/ s/http:\/\//https:\/\//g' /var/www/html/admin/config.php
         sed -i '/HTTPS_CATALOG/ s/http:\/\//https:\/\//g' /var/www/html/admin/config.php
 
+        # Move the cache to tmp
+        rm -rf /var/www/html/system/storage/cache
+        ln -s $OPENCART_STORAGE_CACHE_DIR /var/www/html/system/storage/cache
+        chown www-data: /var/www/html/system/storage/cache
+
+        rm -rf /var/www/html/image/cache
+        ln -s $OPENCART_IMAGE_CACHE_DIR /var/www/html/image/cache
+        chown www-data: /var/www/html/image/cache
+
         echo "== OpenCart Setup Complete =="
     fi
     touch $LIKHA_DATA_DIR/.initialized
@@ -61,5 +81,5 @@ if [ -f $LIKHA_MEDIA_DIR/$OPENCART_FILE ]; then
     rm $LIKHA_MEDIA_DIR/$OPENCART_FILE
 fi
 
-cd /
+
 apache2-foreground
