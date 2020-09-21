@@ -18,7 +18,6 @@ fi
 if [ ! -L /var/www ]; then
     rm -rf /var/www
     ln -s $OPENCART_DATA_DIR /var/www
-    mkdir -p /var/www/html
 fi 
 
 mkdir -p $OPENCART_STORAGE_CACHE_DIR
@@ -30,20 +29,21 @@ touch $OPENCART_IMAGE_CACHE_DIR/index.php
 chown -R www-data: $OPENCART_IMAGE_CACHE_DIR
  
 if [ ! -f "$LIKHA_DATA_DIR/.initialized" ]; then
-    pushd /var/www/html
 
-    unzip $LIKHA_MEDIA_DIR/$OPENCART_FILE 'upload/*' -d /var/www/html
-    mv /var/www/html/upload/* /var/www/html/
-    rm -rf /var/www/html/upload/
+    unzip $LIKHA_MEDIA_DIR/$OPENCART_FILE 'upload/*.*' -d /var/www/
+    mv /var/www/upload/ /var/www/html/
+
+    pushd /var/www/html
+    rm -rf .idea
     mv config-dist.php config.php
     mv admin/config-dist.php admin/config.php
-    chown -R www-data: /var/www
-    chown -R www-data: $OPENCART_DATA_DIR
+    popd
 
     OPENCART_INSTALL_DIR="/var/www/html/install"
     if [ -d $OPENCART_INSTALL_DIR ]; then
+        pushd $OPENCART_INSTALL_DIR
+
         echo "== OpenCart Setup  Start =="
-        cd $OPENCART_INSTALL_DIR
         php cli_install.php install \
             --db_hostname ${DATABASE_HOST} \
             --db_username ${DATABASE_USER} \
@@ -70,11 +70,14 @@ if [ ! -f "$LIKHA_DATA_DIR/.initialized" ]; then
         rm -rf /var/www/html/image/cache
         ln -s $OPENCART_IMAGE_CACHE_DIR /var/www/html/image/cache
         chown www-data: /var/www/html/image/cache
-
         echo "== OpenCart Setup Complete =="
+
+        popd 
     fi
+
+    chown -R www-data: /var/www
+    chown -R www-data: $OPENCART_DATA_DIR
     touch $LIKHA_DATA_DIR/.initialized
-    popd
 fi
 
 if [ -f $LIKHA_MEDIA_DIR/$OPENCART_FILE ]; then 
